@@ -1,0 +1,79 @@
+---
+title: "analysis"
+---
+
+Loading the libraries.
+
+```{r}
+#| output: false
+
+library(babynames)
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(pheatmap)
+```
+
+Showing the head of the `babynames` dataset
+
+```{r}
+head(babynames) |> kable()
+```
+
+Two functions to get the most frequent babynames over a time-period and to plot the top n most popular names.
+
+```{r}
+#| code-fold: true
+
+get_most_frequent <- function(babynames, select_sex, from = 1950) {
+  most_freq <- babynames |>
+    filter(sex == select_sex, year > from) |>
+    group_by(name) |>
+    summarise(average = mean(prop)) |>
+    arrange(desc(average))
+    
+  return(list(
+    babynames = babynames,
+    most_frequent = most_freq,
+    sex = select_sex,
+    from = from))
+}
+
+plot_top <- function(x, top = 10) {
+  topx <- x$most_frequent$name[1:top]
+  
+  p <- x$babynames |>
+    filter(name %in% topx, sex == x$sex, year > x$from) |>
+    ggplot(aes(x = year, y = prop, color = name)) +
+    geom_line() +
+    scale_color_brewer(palette = "Paired") +
+    theme_classic()
+  
+  return(p)
+}
+```
+
+Plotting the top n names for girls:
+
+```{r}
+#| label: fig-top_girl_names
+#| fig-cap: "Top girl names "
+
+get_most_frequent(babynames, select_sex = "F") |> 
+  plot_top()
+```
+
+Wow, @fig-top_girl_names looks amazing.
+
+Plotting the top n names for boys:
+
+```{r}
+#| label: fig-top_boy_names
+#| fig-cap: "Top boy names "
+
+get_most_frequent(babynames, select_sex = "M") |> 
+  plot_top()
+```
+
+Insane how interesting @fig-top_boy_names is.

@@ -1,0 +1,25 @@
+---
+title: "exercises_quarto"
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+```{r}
+1 + 1
+```
+
+*In this project we aim to visualize the trends of the most frequently used babynames from 1880 to 2017 in the United States. We do this by:*
+
+-   *Understanding the different columns of the data set*
+
+-   Find the top 10 most frequently used baby names in the data for:
+
+    -   girls
+
+    -   boys
+
+-   *Plot the yearly trend of the top 10 baby names*
+
+![baby_pic](https://live.staticflickr.com/6020/5936825624_a61e13f2d5_b.jpg){width=400px fig-align="right"}
